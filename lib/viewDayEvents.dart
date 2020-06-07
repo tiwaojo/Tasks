@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 //import 'package:syncfusion_flutter_calendar/calendar.dart';
 //import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -14,15 +15,15 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+//      key: _scaffoldKey,
       body: Column(
         children: <Widget>[
           SizedBox(
             height: 200,
           ),
-          AnimatedContainer(
+          Container(
             height: MediaQuery.of(context).size.height - 200,
-            duration: Duration(seconds: 2),
+
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(75.0),
@@ -43,6 +44,16 @@ class _MenuState extends State<Menu> {
                 ),
               ],
             ),
+            child: Hero(
+              tag: "currentMonth",
+              child: Material(
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+
+                ),
+              ),
+            ),
+
 //            child: SfCalendar(
 //              view: CalendarView.month,backgroundColor: Colors.green,
 //                monthViewSettings: MonthViewSettings(showAgenda: true)

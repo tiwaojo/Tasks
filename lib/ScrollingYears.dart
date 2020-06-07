@@ -2,7 +2,6 @@ import 'dart:core';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:scrolling_years_calendar/year_view.dart';
 import 'package:tasks/main.dart';
 
 void main() => runApp(MyApp());
@@ -68,18 +67,18 @@ class _MyHomePageState extends State<MyHomePage> {
     'Dec',
   ];
 
-  YearView _getYearView(int year) {
-    return YearView(
-      context: context,
-      year: year,
-      currentDateColor: Colors.green,
-//      highlightedDates: widget.highlightedDates,
-//      highlightedDateColor: widget.highlightedDateColor,
-      monthNames: monthNames,
-//      onMonthTap: widget.onMonthTap,
-    );
-  }
-static bool _expand=false;
+//  YearView _getYearView(int year) {
+//    return YearView(
+//      context: context,
+//      year: year,
+//      currentDateColor: Colors.green,
+////      highlightedDates: widget.highlightedDates,
+////      highlightedDateColor: widget.highlightedDateColor,
+//      monthNames: monthNames,
+////      onMonthTap: widget.onMonthTap,
+//    );
+//  }
+  static bool _expand = false;
   DraggableScrollableSheet _newEvent = DraggableScrollableSheet(
       initialChildSize: 0.1,
       minChildSize: 0.1,

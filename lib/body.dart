@@ -1,14 +1,18 @@
+//import 'dart:html';
+
+//import 'dart:js';
+
+//import 'package:animate_do/animate_do.dart';
 import 'package:css_colors/css_colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
 
+import 'globals.dart';
 import 'globals.dart' as globals;
-
-//import 'main.dart';
-//import 'package:device_calendar/device_calendar.dart';
 
 class MyBody extends StatefulWidget {
 //  MyBody({Key key}):super(key:key);
@@ -33,6 +37,7 @@ class _MyBodyState extends State<MyBody> with TickerProviderStateMixin {
     CurrentEvent(header: "_markedDateMap.events.toString()2", body: "df"),
     CurrentEvent(header: "_markedDateMap.events.toString()3", body: "df"),
   ];
+
 //  static List<String> monthNames = const <String>[
 //    'Jan',
 //    'Feb',
@@ -71,25 +76,6 @@ class _MyBodyState extends State<MyBody> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-//    globals.animationController1 = AnimationController(
-//      vsync: this,
-//      duration: const Duration(seconds: 2),
-//    );
-//    globals.animationController2 = AnimationController(
-//      vsync: this,
-//      duration: const Duration(seconds: 1),
-//      reverseDuration: Duration(seconds: 2),
-//      value: 1,
-//      lowerBound: 0.4,
-//      upperBound: 1,
-//    );
-//    globals.animation = CurvedAnimation(
-//        parent: globals.animationController2, curve: Curves.easeOut);
-//    globals.animationController2.forward();
-//    globals.animationController1.repeat();
-
-//    widthAnimation=Tween<double>(begin: maxWidth)
-//    _calendarController = CalendarController();
 
     /// Add more events to _markedDateMap EventList
     _markedDateMap.add(
@@ -223,7 +209,7 @@ class _MyBodyState extends State<MyBody> with TickerProviderStateMixin {
 //      scrollDirection: Axis.horizontal,
       isScrollable: true,
       showOnlyCurrentMonthDate: true,
-      height: 300.0,
+      height: 300,
 //      width: MediaQuery.of(context).size.width,
       weekendTextStyle: TextStyle(
         color: CSSColors.grey,
@@ -255,6 +241,7 @@ class _MyBodyState extends State<MyBody> with TickerProviderStateMixin {
         fontStyle: FontStyle.normal,
       ),
       todayButtonColor: Colors.pink,
+
       markedDateShowIcon: true,
       markedDateIconMaxShown: 1,
       markedDateWidget: _eventIcon,
@@ -320,81 +307,83 @@ class _MyBodyState extends State<MyBody> with TickerProviderStateMixin {
 //      calendarController: null,
     );
 
-    return Container(width: MediaQuery.of(context).size.width,
-      child: Column(mainAxisSize: MainAxisSize.max,mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
 //SizedBox(height: 30,),
 
-          Card(
-            margin: EdgeInsets.all(20),
-            elevation: 10,
-            borderOnForeground: false,
-            shadowColor: Colors.blue,
-            semanticContainer: false,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                cardColor: Color.fromRGBO(24, 34, 49, 100),
-                dividerColor: Colors.transparent,
-                dividerTheme: DividerThemeData(thickness: 23, space: 20),
+        Card(
+          margin: EdgeInsets.all(20),
+          elevation: 10,
+          borderOnForeground: false,
+          shadowColor: Colors.blue,
+          semanticContainer: false,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              cardColor: Color.fromRGBO(24, 34, 49, 100),
+              dividerColor: Colors.transparent,
+              dividerTheme: DividerThemeData(thickness: 23, space: 20),
 
-                cardTheme: CardTheme(
+              cardTheme: CardTheme(
 //                    margin: EdgeInsets.all(6),
-                  elevation: 3,
-                  shadowColor: Colors.amber,
+                elevation: 3,
+                shadowColor: Colors.amber,
 //                    shape: RoundedRectangleBorder(
 //                        borderRadius: BorderRadius.circular(15)),
-                ),
+              ),
 
 //              textTheme: ,
-              ),
-              isMaterialAppTheme: true,
-              child: ExpansionPanelList(
-                animationDuration: Duration(seconds: 1),
-                expansionCallback: (int index, bool isExpanded) {
-                  setState(
-                    () {
-                      _currentDayEvent[index].isExpanded =
-                          !_currentDayEvent[index].isExpanded;
-                    },
-                  );
-                },
-                children: _currentDayEvent.map<ExpansionPanel>(
-                  (CurrentEvent currentEvent) {
-                    return ExpansionPanel(
-                      headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
+            ),
+            isMaterialAppTheme: true,
+            child: ExpansionPanelList(
+              animationDuration: Duration(seconds: 1),
+              expansionCallback: (int index, bool isExpanded) {
+                setState(
+                  () {
+                    _currentDayEvent[index].isExpanded =
+                        !_currentDayEvent[index].isExpanded;
+                  },
+                );
+              },
+              children: _currentDayEvent.map<ExpansionPanel>(
+                (CurrentEvent currentEvent) {
+                  return ExpansionPanel(
+                    headerBuilder: (BuildContext context, bool isExpanded) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
 //                          ClipRRect(
 //                            borderRadius: BorderRadius.circular(20),
-                          child: ListTile(
-                            contentPadding: EdgeInsets.all(3.0),
-                            leading: Container(
-                              padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-//                                decoration: BoxDecoration(
-//                                    border: Border(
-//                                        left: BorderSide(
-//                                            width: 3.0, color: Colors.white54))),
-                              child: Icon(
-                                Icons.account_circle,
-                                size: 30.0,
-                                color: Colors.black,
-                              ),
-                            ),
-                            title: ListTile(
-                              contentPadding: EdgeInsets.all(0.0),
-                              title: Text(
-                                currentEvent.header,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
+                        child: Text("data"),
+//                          ListTile(isThreeLine: false,
+//                            contentPadding: EdgeInsets.all(3.0),
+//                            leading: Container(
+//                              padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+////                                decoration: BoxDecoration(
+////                                    border: Border(
+////                                        left: BorderSide(
+////                                            width: 3.0, color: Colors.white54))),
+//                              child: Icon(
+//                                Icons.account_circle,
+//                                size: 30.0,
+//                                color: Colors.black,
+//                              ),
+//                            ),
+//                            title: ListTile(
+//                              contentPadding: EdgeInsets.all(0.0),
+//                              title: Text(
+//                                currentEvent.header,
+//                                style: TextStyle(
+//                                  color: Colors.black,
+//                                  fontSize: 14.0,
+//                                ),
+//                              ),
+//                            ),
+//                          ),
+                      );
 //                          return Container(
 ////                            color:Colors.blue,
 //                            alignment: Alignment.center,
@@ -404,24 +393,116 @@ class _MyBodyState extends State<MyBody> with TickerProviderStateMixin {
 //                              style: textStyle1,
 //                            ),
 //                          );
-                      },
-                      isExpanded: currentEvent.isExpanded,
-                      canTapOnHeader: true,
-                      body: Container(
-                        color: Colors.blue,
-                        child: Text(
-                          currentEvent.body,
-                          style: Theme.of(context).textTheme.headline2,
-                          textAlign: TextAlign.left,
-                        ),
+                    },
+                    isExpanded: currentEvent.isExpanded,
+                    canTapOnHeader: true,
+                    body: Container(
+                      color: Colors.blue,
+                      child: Text(
+                        currentEvent.body,
+                        style: Theme.of(context).textTheme.headline2,
+                        textAlign: TextAlign.left,
                       ),
-                    );
-                  },
-                ).toList(),
-                expandedHeaderPadding: EdgeInsets.all(0.0),
-              ),
+                    ),
+                  );
+                },
+              ).toList(),
+              expandedHeaderPadding: EdgeInsets.all(0.0),
             ),
           ),
+        ),
+
+        Column(
+          children: <Widget>[
+            TableCalendar(
+              calendarController: globals.calendarController,
+              initialCalendarFormat: CalendarFormat.month,
+              events: events,
+              formatAnimation: FormatAnimation.scale,
+              availableGestures: AvailableGestures.verticalSwipe,
+              calendarStyle: CalendarStyle(
+                todayColor: Colors.pink,
+                highlightSelected: true,
+                canEventMarkersOverflow: true,
+                markersPositionBottom: 1,
+                markersAlignment: Alignment.bottomCenter,
+                markersColor: Colors.black,
+                markersMaxAmount: 1,
+                markersPositionLeft: 22,
+//markersPositionRight: 4,
+//                markersPositionTop:40,
+//                            contentPadding: EdgeInsets.all(12)
+//                          markersPositionBottom: 10,
+              ),
+              builders:
+                  CalendarBuilders(todayDayBuilder: (context, date, events) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.bottomCenter,
+                      padding: EdgeInsets.all(6),
+                      margin: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+//                                borderRadius: BorderRadius.circular(30),
+                        shape: BoxShape.circle,
+                        color: Theme.of(context).backgroundColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12.withOpacity(0.5),
+                            blurRadius: 10.0,
+                            spreadRadius: 1.0,
+                            offset: Offset(
+                              0,
+                              0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        date.day.toString(),
+                      ),
+                    ),
+//                          Container(
+////                                    color: Colors.black,
+//                            alignment: Alignment.center,
+//                            height:6,
+//                            width: 6,
+////                                  margin: EdgeInsets.all(6),
+//                            decoration: BoxDecoration(color:Colors.black ,shape: BoxShape.circle),)
+                  ],
+                );
+              }, selectedDayBuilder: (context, date, events) {
+                return Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+//                                borderRadius: BorderRadius.circular(30),
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).backgroundColor,
+
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12.withOpacity(0.5),
+                        blurRadius: 10.0,
+                        spreadRadius: 1.0,
+                        offset: Offset(
+                          0,
+                          0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    date.day.toString(),
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
+
 //              Container(
 //                child: Center(
 //                  child: AnimatedIcon(
@@ -431,79 +512,90 @@ class _MyBodyState extends State<MyBody> with TickerProviderStateMixin {
 //                  ),
 //                ),
 //              ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 50.0),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.bottomCenter,
-
-//                  height: 100,
-//                  color: Colors.black,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                      mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          globals.currentMonth,
-                          style: TextStyle(
-                              fontFamily: "Phenomena",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24.0,
-                              color: CSSColors.deepPink),
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.chevron_left, size: 20),
-                        tooltip: globals.prevMonth,
-                        color: Colors.pink,
-                        iconSize: 15,
-                        onPressed: () {
-                          setState(() {
-                            globals.targetDateTime = DateTime(
-                                globals.targetDateTime.year,
-                                globals.targetDateTime.month - 1);
-                            globals.currentMonth =
-                                DateFormat.yMMM().format(globals.targetDateTime);
-                            print(globals.currentMonth =
-                                DateFormat.MMMM().format(globals.targetDateTime));
-                          });
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.chevron_right,
-                          size: 20,
-                        ),
-                        tooltip: globals.nextMonth,
-                        color: Colors.pink,
-                        iconSize: 15,
-                        onPressed: () {
-                          setState(() {
-                            globals.targetDateTime = DateTime(
-                                globals.targetDateTime.year,
-                                globals.targetDateTime.month + 1);
-                            globals.currentMonth =
-                                DateFormat.yMMM().format(globals.targetDateTime);
-                            print(globals.currentMonth =
-                                DateFormat.MMMM().format(globals.targetDateTime));
-                          });
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                //Calendar
-                Container(
-//                    margin: EdgeInsets.fromLTRB(40.0, 2.0, 40.0, 10.0),
-//                    padding: EdgeInsets.symmetric(horizontal: 5.0),
-                  child: _calendarCarousel,
-                ),
-              ],
-            ),
-          ),
-          //icons for the previous and next button
+//        Container(
+//          margin: EdgeInsets.symmetric(horizontal: 50.0),
+//          child: Column(
+//            children: <Widget>[
+//              Container(
+//                alignment: Alignment.bottomCenter,
+//
+////                  height: 100,
+////                  color: Colors.black,
+//                child: Row(
+//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+////                      mainAxisSize: MainAxisSize.max,
+//                  children: <Widget>[
+//                    Hero(tag:"currentMonth",transitionOnUserGestures: true,
+//                      child: GestureDetector(onTap: () {
+//                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Menu()));
+//                      },
+//                        child: Padding(
+//                          padding: const EdgeInsets.only(left:10.0),
+//                          child: Text(
+//                            globals.currentMonth,
+//                            style: TextStyle(
+//                                fontFamily: "Phenomena",
+//                                fontWeight: FontWeight.bold,
+//                                fontSize: 24.0,
+//                                color: CSSColors.deepPink),
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                    Row(
+//                      children: <Widget>[
+//                        IconButton(
+//                          icon: Icon(Icons.chevron_left, size: 20),
+//                          tooltip: globals.prevMonth,
+//                          color: Colors.pink,
+//                          iconSize: 15,
+//                          onPressed: () {
+//                            setState(() {
+//                              globals.targetDateTime = DateTime(
+//                                  globals.targetDateTime.year,
+//                                  globals.targetDateTime.month - 1);
+//                              globals.currentMonth =
+//                                  DateFormat.yMMM().format(globals.targetDateTime);
+//                              print(globals.currentMonth =
+//                                  DateFormat.MMMM().format(globals.targetDateTime));
+//                            });
+//                          },
+//                        ),
+//                        IconButton(
+//                          icon: Icon(
+//                            Icons.chevron_right,
+//                            size: 20,
+//                          ),
+//                          tooltip: globals.nextMonth,
+//                          color: Colors.pink,
+//                          iconSize: 15,
+//                          onPressed: () {
+//                            setState(() {
+//                              globals.targetDateTime = DateTime(
+//                                  globals.targetDateTime.year,
+//                                  globals.targetDateTime.month + 1);
+//                              globals.currentMonth =
+//                                  DateFormat.yMMM().format(globals.targetDateTime);
+//                              print(globals.currentMonth =
+//                                  DateFormat.MMMM().format(globals.targetDateTime));
+//                            });
+//                          },
+//                        ),
+//                      ],
+//                    )
+//                  ],
+//                ),
+//              ),
+//              //Calendar
+//              Container(
+////                    margin: EdgeInsets.fromLTRB(40.0, 2.0, 40.0, 10.0),
+////                    padding: EdgeInsets.symmetric(horizontal: 5.0),
+//                child: _calendarCarousel,
+//              ),
+//            ],
+//          ),
+//        ),
+        //icons for the previous and next button
 
 //            Container(
 ////              alignment: Alignment.center,margin: EdgeInsets.symmetric(horizontal: 80),
@@ -514,8 +606,7 @@ class _MyBodyState extends State<MyBody> with TickerProviderStateMixin {
 //              child: _newEvent,
 ////            ),
 //            ),
-        ],
-      ),
+      ],
     );
   }
 }

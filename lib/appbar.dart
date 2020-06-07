@@ -1,8 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'globals.dart' as globals;
 
+import 'bottom_sheet.dart';
+import 'globals.dart' as globals;
 
 class Appbar extends StatefulWidget {
   @override
@@ -10,43 +11,12 @@ class Appbar extends StatefulWidget {
 }
 
 class _AppbarState extends State<Appbar> {
-
-
-  @override
-  void _resizeContext() {
-
-       setState(() {
-         if (globals.resized == true) {
-//                            _opacity = _animation.value;
-           globals.visibility = false;
-           globals.opacity = 0;
-           globals.animationController2.animateBack(
-               1.0,
-               duration: Duration(seconds: 2),
-               curve: Curves.easeOut);
-
-           globals.resized = false;
-           print("scale up");
-         } else if (globals.resized == false) {
-//                                    _scaffoldKey.currentState.openDrawer();
-           globals.opacity = 1;
-           globals.animationController2.animateTo(0.0,
-               duration: Duration(seconds: 2),
-               curve: Curves.easeInOutQuad);
-
-           globals.visibility = true;
-           globals.resized = true;
-           print("scale down");
-           globals.alignment = Alignment.centerRight;
-         }
-
-     });}
   Widget build(BuildContext context) {
-    return
-      Container(
+    return Container(
 //              foregroundDecoration: BoxDecoration(color: Colors.transparent),
       margin: EdgeInsets.only(top: 20),
-      padding: EdgeInsets.all(10),
+      width: MediaQuery.of(context).size.width,
+//      padding: EdgeInsets.all(10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,39 +30,40 @@ class _AppbarState extends State<Appbar> {
                 padding: const EdgeInsets.all(8.0),
                 child: IconButton(
 //                              icon: Icon(MdiIcons.equalizerOutline),
-                    icon: Icon(IconData(0xe800,fontFamily: "appicons")),
+                    icon: Icon(IconData(0xe800, fontFamily: "appicons")),
                     color: Colors.pink,
                     splashColor: Colors.blue,
                     hoverColor: Colors.green,
                     onPressed: () {
 //                        Transform.scale(scale: 0.5, child: _myBody);
-_resizeContext();
 
+                      setState(() {
+                        globals.resized = !globals.resized;
+                      });
                     }),
               ),
             ),
           ),
           IconButton(
             icon: Icon(Icons.add),
-            color: Colors.pink,iconSize: 30,
+            color: Colors.pink,
+            iconSize: 30,
             onPressed: () {
-//                        showModalBottomSheet((context) => _myBottomSheet);
-
-//
-//                          if (modalOpen == true) {modalOpen=false;
-//                            Navigator.pop(context);
-//
-//                          }
               if (globals.modalOpen == false) {
 //                            modalOpen=true;
                 showModalBottomSheet(
                   context: context,
                   builder: (context) {
-                    return ModalBottomSheet();
+                    return SingleChildScrollView(child: ModalBottomSheet());
                   },
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Colors.blueGrey,
                   enableDrag: true,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(25.0)),
+                  ),
                   isScrollControlled: true,
+                  useRootNavigator: true,
                   isDismissible: true,
                 );
               }
